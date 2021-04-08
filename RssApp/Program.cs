@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace RssFeed
+namespace RssApp
 {
     class Program
     {

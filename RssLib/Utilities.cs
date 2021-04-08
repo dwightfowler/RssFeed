@@ -4,15 +4,11 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace RssFeed
+namespace RssFeedLib
 {
-    class Utilities
+    internal static class StringExtensions
     {
-    }
-
-    public static class StringExtensions
-    {
-        public static bool IsNullOrEmpty(this string val)
+        internal static bool IsNullOrEmpty(this string val)
         {
             return (val is null || val.Length < 1);
         }

@@ -1,5 +1,5 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
-using RssFeed.Source;
+using RssFeedLib;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -8,7 +8,7 @@ using System.Text;
 using System.Text.Json;
 using System.Threading.Tasks;
 
-namespace RssFeed.Source.Tests
+namespace RssTesting.Lib.Tests
 {
     [TestClass()]
     public class RssSourcesTests
@@ -37,7 +37,7 @@ namespace RssFeed.Source.Tests
                 writer.Write(json);
                 writer.Close();
 
-                Console.WriteLine("Created RSS file: \"{fileName}\"");
+                Console.WriteLine($"Created RSS file: \"{fileName}\"");
             }
             catch (Exception ex)
             {
@@ -55,7 +55,7 @@ namespace RssFeed.Source.Tests
                 try
                 {
                     File.Delete(fileName);
-                    msg = $"Deleted {fileName}";
+                    msg = $"Deleted RSS file: {fileName}";
                 }
                 catch (Exception ex)
                 {
@@ -86,9 +86,11 @@ namespace RssFeed.Source.Tests
             Assert.AreEqual(sources.Sources.Count, rssSourcesCount, $"Sources file count {sources.Sources.Count} != {rssSourcesCount}");
             var key = sources.Sources.Keys.First();
             var uri = sources.Sources[key];
-            var feed = new RssFeed(uri);
+            using var feed = new RssFeed(uri);
             Assert.IsTrue(feed.Load());
             Assert.IsTrue(feed.PubDate > DateTimeOffset.MinValue);
+
+            Console.WriteLine(feed);
         }
     }
 }
