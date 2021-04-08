@@ -13,7 +13,7 @@ namespace RssFeed.Source
 
         public override string ToString()
         {
-            return $"Company:{Company}, Address:{Address}";
+            return $"Company: {Company}, Address: {Address}";
         }
     }
 }

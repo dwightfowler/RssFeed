@@ -14,6 +14,7 @@ namespace RssFeed.Source.Tests
     public class RssSourcesTests
     {
         const string fileName = "RssFeed.json";
+        private int rssSourcesCount;
 
         [TestInitialize]
         public void MakeRssFile()
@@ -26,6 +27,7 @@ namespace RssFeed.Source.Tests
                 new RssSource() {Company = "Facebook", Address = "https://www.facebook.com/xml/x.xml" },
                 new RssSource() {Company = "Netflix", Address = "https://www.netflix.com/xml/netflix.xml" },
             };
+            rssSourcesCount = items.Length;
 
             try
             {
@@ -67,7 +69,7 @@ namespace RssFeed.Source.Tests
         public void RssListSourceTest()
         {
             var sources = new RssSources(fileName);
-            Assert.IsTrue(sources.Sources.Count() > 0, "Sources file is empty or missing");
+            Assert.AreEqual(sources.Sources.Count, rssSourcesCount, $"Sources file count {sources.Sources.Count} != {rssSourcesCount}");
             foreach (var source in sources.Sources)
             {
                 Console.WriteLine(source);
