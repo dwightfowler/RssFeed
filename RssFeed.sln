@@ -5,9 +5,14 @@ VisualStudioVersion = 16.0.31129.286
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RssApp", "RssApp\RssApp.csproj", "{1F92EC3A-7393-4998-9475-D82A64ACF66E}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RssTesting", "RssTesting\RssTesting.csproj", "{EED29963-FA79-4D1C-BBBF-C908B13999EF}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RssTesting", "RssTesting\RssTesting.csproj", "{EED29963-FA79-4D1C-BBBF-C908B13999EF}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RssLib", "RssLib\RssLib.csproj", "{D9860FAA-FBFF-4CC8-BE33-EEE2CF4FD205}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RssLib", "RssLib\RssLib.csproj", "{D9860FAA-FBFF-4CC8-BE33-EEE2CF4FD205}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{DD31AB71-7690-4FFA-8724-565ADFEAA3EC}"
+	ProjectSection(SolutionItems) = preProject
+		README.md = README.md
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
