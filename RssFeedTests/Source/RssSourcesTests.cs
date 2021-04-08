@@ -21,11 +21,12 @@ namespace RssFeed.Source.Tests
         {
             RssSource[] items = new RssSource[]
             {
-                new RssSource() {Company = "Google", Address = "https://www.google.com/xml/the-rssfeed.xml" },
-                new RssSource() {Company = "IBM", Address = "https://www.ibm.com/xml/ibm-news-feed.xml" },
-                new RssSource() {Company = "Apple", Address = "https://www.apple.com/xml/the-cool-feed.xml" },
+                new RssSource() {Company = "DateLine NBC", Address = "https://podcastfeeds.nbcnews.com/dateline-nbc" },
                 new RssSource() {Company = "Facebook", Address = "https://www.facebook.com/xml/x.xml" },
+                new RssSource() {Company = "Apple", Address = "https://www.apple.com/xml/the-cool-feed.xml" },
                 new RssSource() {Company = "Netflix", Address = "https://www.netflix.com/xml/netflix.xml" },
+                new RssSource() {Company = "Google", Address = "https://www.google.com/xml/the-rssfeed.xml" },
+                
             };
             rssSourcesCount = items.Length;
 
@@ -76,6 +77,18 @@ namespace RssFeed.Source.Tests
                 Assert.IsTrue(source.Key is Object && source.Key.Length > 0, "Empty Company entry!");
                 Assert.IsTrue(source.Value is Object && source.Value.Length > 0, "Empty Address entry!");
             }
+        }
+
+        [TestMethod]
+        public void RssFeedTest()
+        {
+            var sources = new RssSources(fileName);
+            Assert.AreEqual(sources.Sources.Count, rssSourcesCount, $"Sources file count {sources.Sources.Count} != {rssSourcesCount}");
+            var key = sources.Sources.Keys.First();
+            var uri = sources.Sources[key];
+            var feed = new RssFeed(uri);
+            Assert.IsTrue(feed.Load());
+            Assert.IsTrue(feed.PubDate > DateTimeOffset.MinValue);
         }
     }
 }
