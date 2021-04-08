@@ -14,7 +14,7 @@ C:\>
 ~~~~
 
 # How it Works
-Instantiate an instance of the `CheckAge` class. The library expects the given `Dictionary<string, string>` to be formatted as Key=CompanyName, Value=AbsoluteURL.
+Instantiate the `CheckAge` class. The library expects the `Feeds` property to be a `Dictionary<string, string>`. It must be formatted as Key=CompanyName, Value=AbsoluteURL.
 
 An example of how to fill your instance using the `args[]` in a console app:
 
@@ -36,7 +36,7 @@ using System.Collections.Generic;
         Feeds = feeds
     };
     
-    checker.Calc();
+    checker.Check();
 
 ~~~~
 
@@ -46,6 +46,6 @@ Using the `CheckAge` class is a three step process:
    1. `CurrentDateTime` - the date and time of the moment you want to compare against your RSS feed.
    2. `MaxAge` - a `TimeSpan` denoting the maximum age you are considering.
    3. `Feeds` - a `Dictionary<string, string>` holding your company name and its' RSS feed URL.
-4. Call the `Calc()` method on your instance.
+4. Call the `Check()` method on your instance.
 
-The `Calc()` method is expensive. It makes a network call to each or URLs. It receives the XML string, creates an `XmlDocument`, and traverses the XML using XPath.
+The `Check()` method is expensive. It makes a network call to each or URLs. It receives the XML string, creates an `XmlDocument`, and traverses the XML using XPath.
