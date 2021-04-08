@@ -64,13 +64,13 @@ namespace RssLib
             }
 
             OverAge = new List<bool>(Feeds.Count);
-            foreach(var feed in Feeds)
+            DateTimeOffset now = useNow ? DateTimeOffset.Now : CurrentDateTime;
+            foreach (var feed in Feeds)
             {
                 bool result; // = false
                 var rssFeed = new RssFeed(feed.Value);
                 if (result = rssFeed.Load())
                 {
-                    DateTimeOffset now = useNow ? DateTimeOffset.Now : CurrentDateTime;
                     result = now.Subtract(rssFeed.PubDate) > MaxAge;
                 }
                 OverAge.Add(result);

@@ -1,0 +1,8 @@
+{
+  "profiles": {
+    "RssApp": {
+      "commandName": "Project",
+      "commandLineArgs": "\"The Daily by The New York Times\" http://rss.art19.com/the-daily 2"
+    }
+  }
+}
