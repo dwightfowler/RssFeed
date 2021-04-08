@@ -15,3 +15,28 @@ C:\>
 
 # How it Works
 Instantiate an instance of the `CheckAge` class. The library expects the given `Dictionary<string, string>` to be formatted as Key=CompanyName, Value=AbsoluteURL.
+
+A simple way to fill your instance from a console app is like...
+
+~~~~C#
+using RssLib;
+using System;
+using System.Collections.Generic;
+.
+.
+.
+    var kv = KeyValuePair.Create<string, string>(args[0], args[1]);
+    var feeds = new Dictionary<string, string>(new[] { kv });
+    int days = Int32.Parse(args[2]);
+
+    CheckAge checker = new ()
+    {
+        CurrentDateTime = DateTimeOffset.Now,
+        MaxAge = TimeSpan.FromDays(days),
+        Feeds = feeds
+    };
+    
+    checker.Calc();
+
+~~~~
+
