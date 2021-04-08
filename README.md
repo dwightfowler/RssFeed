@@ -41,7 +41,7 @@ using System.Collections.Generic;
 ~~~~
 
 Using the `CheckAge` class is a three step process:
- 1. Instantiate the class ````C# new CheckAge();````
+ 1. Instantiate the class `new CheckAge();`
  2. Set your input fields:
    1. `CurrentDateTime` - the date and time of the moment you want to compare against your RSS feed.
    2. `MaxAge` - a `TimeSpan` denoting the maximum age you are considering.
