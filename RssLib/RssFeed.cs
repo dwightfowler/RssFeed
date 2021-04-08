@@ -7,7 +7,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Xml;
 
-namespace RssFeedLib
+namespace RssLib
 {
     /// <summary>
     /// <p>An single instance of an RSS feed indicated by the URI string passed into the constructor.</p>
@@ -69,7 +69,8 @@ namespace RssFeedLib
                 doc = new XmlDocument();
                 doc.LoadXml(rss);
                 var nodeChannel = doc.SelectSingleNode(@"rss/channel");
-                var nodePubDate = nodeChannel.SelectSingleNode(@"pubDate");
+                var nodeDates = nodeChannel.SelectNodes(@"pubDate | lastBuildDate");
+                var nodePubDate = nodeDates.Item(0);
                 var nodeTitle = nodeChannel.SelectSingleNode(@"title");
                 var nodeDescription = nodeChannel.SelectSingleNode(@"description");
 
@@ -80,8 +81,8 @@ namespace RssFeedLib
                     result = false;
                 }
 
-                Title = nodeTitle.InnerText;
-                Description = nodeDescription.InnerText;
+                Title = nodeTitle.InnerText.Trim();
+                Description = nodeDescription.InnerText.Trim();
 
                 return result;
             }
@@ -105,6 +106,8 @@ namespace RssFeedLib
         {
             // release the potentially large XmlDocument object
             doc = null;
+
+            GC.SuppressFinalize(this);
         }
     }
 }

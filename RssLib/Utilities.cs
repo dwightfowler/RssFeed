@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace RssFeedLib
+namespace RssLib
 {
     internal static class StringExtensions
     {

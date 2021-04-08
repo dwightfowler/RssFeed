@@ -1,5 +1,5 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
-using RssFeedLib;
+using RssLib;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -11,7 +11,7 @@ using System.Threading.Tasks;
 namespace RssTesting.Lib.Tests
 {
     [TestClass()]
-    public class RssSourcesTests
+    public class RssLibTests
     {
         const string fileName = "RssFeed.json";
         private int rssSourcesCount;
@@ -22,10 +22,10 @@ namespace RssTesting.Lib.Tests
             RssSource[] items = new RssSource[]
             {
                 new RssSource() {Company = "DateLine NBC", Address = "https://podcastfeeds.nbcnews.com/dateline-nbc" },
-                new RssSource() {Company = "Facebook", Address = "https://www.facebook.com/xml/x.xml" },
-                new RssSource() {Company = "Apple", Address = "https://www.apple.com/xml/the-cool-feed.xml" },
-                new RssSource() {Company = "Netflix", Address = "https://www.netflix.com/xml/netflix.xml" },
-                new RssSource() {Company = "Google", Address = "https://www.google.com/xml/the-rssfeed.xml" },
+                new RssSource() {Company = "The Daily by the New Your Times", Address = "http://rss.art19.com/the-daily" },
+                new RssSource() {Company = "The Experiment", Address = "http://feeds.wnyc.org/experiment_podcast" },
+                new RssSource() {Company = "Netflix SEC Filings", Address = "https://ir.netflix.net/rss/SECFiling.aspx?Exchange=CIK&Symbol=0001065280" },
+                new RssSource() {Company = "Google", Address = "https://feeds.feedburner.com/google/think" },
                 
             };
             rssSourcesCount = items.Length;
@@ -84,13 +84,52 @@ namespace RssTesting.Lib.Tests
         {
             var sources = new RssSources(fileName);
             Assert.AreEqual(sources.Sources.Count, rssSourcesCount, $"Sources file count {sources.Sources.Count} != {rssSourcesCount}");
-            var key = sources.Sources.Keys.First();
-            var uri = sources.Sources[key];
-            using var feed = new RssFeed(uri);
-            Assert.IsTrue(feed.Load());
-            Assert.IsTrue(feed.PubDate > DateTimeOffset.MinValue);
+            foreach (var source in sources.Sources)
+            {
+                var uri = source.Value;
+                using var feed = new RssFeed(uri);
+                Assert.IsTrue(feed.Load());
+                Assert.IsTrue(feed.PubDate > DateTimeOffset.MinValue);
 
-            Console.WriteLine(feed);
+                Console.WriteLine(feed);
+            }
+        }
+
+        [TestMethod]
+        public void CalcAgeTest()
+        {
+            var sources = new RssSources(fileName);
+            Assert.AreEqual(sources.Sources.Count, rssSourcesCount, $"Sources file count {sources.Sources.Count} != {rssSourcesCount}");
+
+            foreach (var source in sources.Sources)
+            {
+                var uri = source.Value;
+                using var feed = new RssFeed(uri);
+                Assert.IsTrue(feed.Load());
+                Assert.IsTrue(feed.PubDate > DateTimeOffset.MinValue);
+
+                Console.WriteLine(feed);
+            }
+
+            using var aging = new CheckAge()
+            {
+                CurrentDateTime = DateTimeOffset.Now,
+                MaxAge = TimeSpan.FromDays(2),
+                Feeds = sources.Sources
+            };
+
+            aging.Check();
+
+            var companyEnum = sources.Sources.Keys.GetEnumerator();
+            foreach (var isOverAge in aging.OverAge)
+            {
+                string companyName = "<unknown>";
+                if (companyEnum.MoveNext())
+                {
+                    companyName = companyEnum.Current;
+                }
+                Console.WriteLine($"\"{companyName}\" RSS Feed is{(isOverAge?" ":" not ")}over {aging.MaxAge.Days} days");
+            }
         }
     }
 }

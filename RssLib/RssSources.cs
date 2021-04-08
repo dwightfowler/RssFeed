@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 using System.Text.Json;
 using System.IO;
 
-namespace RssFeedLib
+namespace RssLib
 {
     public class RssSources
     {
@@ -14,19 +14,19 @@ namespace RssFeedLib
 
         public RssSources(string filePath)
         {
-            if (!File.Exists(filePath)) {
+            if (!File.Exists(filePath))
+            {
                 Sources = new Dictionary<string, string>();
                 return;
             }
 
-            using StreamReader reader = new StreamReader(filePath);
+            using StreamReader reader = new(filePath);
             var items = JsonSerializer.Deserialize<RssSource[]>(reader.ReadToEnd());
-            Sources = new Dictionary<string, string>(items.Count());
-            foreach(var item in items)
+            Sources = new Dictionary<string, string>(items.Length);
+            foreach (var item in items)
             {
                 Sources.Add(item.Company, item.Address);
             }
         }
-
     }
 }
